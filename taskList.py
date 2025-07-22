@@ -520,4 +520,22 @@ async def delete_task_list(ctx, list_name):
     await ctx.send(f"Deleted task list '{list_name}'!")
 
 # Run the bot
+from threading import Thread
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return "Discord Bot is running!"
+
+def run():
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
+
+def keep_alive():
+    t = Thread(target=run)
+    t.start()
+
+# Add this before bot.run()
+keep_alive()
 bot.run(os.getenv('DISCORD_TOKEN'))
